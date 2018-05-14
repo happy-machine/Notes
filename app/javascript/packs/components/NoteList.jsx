@@ -33,39 +33,44 @@ class NoteList extends React.Component{
     })
     .then( (res) => { 
       this.setState({notes:res})
+      refresh()
     })
     .catch( e => { console.log(e) 
     })
-  }
+    
 
+
+let refresh = () => {
+
+    setTimeout( ( props ) => {
+ 
+      if (this.state.color!='red'){
+            var localOpacity = parseFloat( this.state.opacity )
+            localOpacity+=0.01
+            this.state.opacity > 1.1 ? this.setState({ opacity:'0' }) : this.setState({ opacity:localOpacity.toString() })
+        }
+       refresh()
+     }, 100);  
+}
+  }
   onMouseOver = () => {
+   
     this.setState({color:'red'})   
 }
 onMouseOut = () => {
     this.setState({color:'green'})       
 }
 
-refresh = () =>{
-    setTimeout( ( props ) => {
-      if (this.state.color!='red'){
-            var localOpacity = parseFloat( this.state.opacity )
-            localOpacity+=0.01
-            this.state.opacity > 1.1 ? this.setState({ opacity:'0' }) : this.setState({ opacity:localOpacity.toString() })
-        }
-        this.refresh()
-     }, 100);  
-}
-
   render () {
 
     var notes = this.state.notes.map((contents,i)=>{
 
-      return <Note {...contents} style={this.state.bind} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} key={i} />
+      return <Note {...contents} onMouseOver={this.onMouseOver}  style={this.state} onMouseOut={this.onMouseOut} key={i} />
     },this)
 
     return (
 
-      <div children={notes}></div>
+      <div children={notes}   ></div>
     )
   }
 }

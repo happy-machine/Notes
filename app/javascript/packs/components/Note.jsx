@@ -1,9 +1,12 @@
 import React from 'react'
 class Note extends React.Component{
     
-
-      componentDidMount(){
-         this.refresh()
+constructor(props,state){
+    super(props)
+    console.log(props)
+}
+      componentDidMount(props){
+      
     }
 
     render () {
@@ -11,7 +14,7 @@ class Note extends React.Component{
             // seperate new line seperate text into spans
             this.props.content.split('\\n').map(function(line, key) {        
                 return (
-                    <span key={key}>
+                    <span key={key} style={this.props.style} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut}>
                         {line}
                         <br/>
                     </span>

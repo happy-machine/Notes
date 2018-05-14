@@ -53,19 +53,13 @@ let refresh = () => {
      }, 100);  
 }
   }
-  onMouseOver = () => {
-   
-    this.setState({color:'red'})   
-}
-onMouseOut = () => {
-    this.setState({color:'green'})       
-}
+
 
   render () {
 
     var notes = this.state.notes.map((contents,i)=>{
 
-      return <Note {...contents} onMouseOver={this.onMouseOver}  style={this.state} onMouseOut={this.onMouseOut} key={i} />
+      return <Note {...contents} style={this.state} key={i} />
     },this)
 
     return (

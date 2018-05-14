@@ -9,7 +9,6 @@ constructor(props){
       
     }
     onMouseOver = () => {
-   console.log('over')
 
         this.setState({color:'red'})  
     }
@@ -23,9 +22,10 @@ constructor(props){
 
         return (
             // seperate new line seperate text into spans
-            this.props.content.split('\\n').map(function(line, key) {        
+            this.props.content.split('\\n').map(function(line, key) {   
+                  
                 return (
-                    <span key={key} style={concatStyle} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}>
+                    <span key={key} ref={(fieldEditor1) => {this.fieldEditor1 = fieldEditor1;}}  style={concatStyle} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}>
                         {line}
                         <br/>
                     </span>

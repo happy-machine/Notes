@@ -41,10 +41,10 @@ class NoteList extends React.Component{
 
 
 let refresh = () => {
-
-    setTimeout( ( props ) => {
  
-      if (this.state.color!='red'){
+    setTimeout( ( props ) => {
+      console.log(this.reference.state.color)
+      if (this.reference.state.color!='red'){
             var localOpacity = parseFloat( this.state.opacity )
             localOpacity+=0.01
             this.state.opacity > 1.1 ? this.setState({ opacity:'0' }) : this.setState({ opacity:localOpacity.toString() })
@@ -54,12 +54,12 @@ let refresh = () => {
 }
   }
 
-
+ 
   render () {
 
     var notes = this.state.notes.map((contents,i)=>{
-
-      return <Note {...contents} style={this.state} key={i} />
+     
+      return <Note {...contents} style={this.state} key={i} ref={(reference) => {this.reference = reference;}} />
     },this)
 
     return (

@@ -20,7 +20,9 @@ class NoteList extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-    notes:[]
+    opacity: '0',
+    notes: [],
+    color: 'green'
     }
   }
 
@@ -36,18 +38,30 @@ class NoteList extends React.Component{
     })
   }
 
-  
+  onMouseOver = () => {
+    this.setState({color:'red'})   
+}
+onMouseOut = () => {
+    this.setState({color:'green'})       
+}
+
+refresh = () =>{
+    setTimeout( ( props ) => {
+      if (this.state.color!='red'){
+            var localOpacity = parseFloat( this.state.opacity )
+            localOpacity+=0.01
+            this.state.opacity > 1.1 ? this.setState({ opacity:'0' }) : this.setState({ opacity:localOpacity.toString() })
+        }
+        this.refresh()
+     }, 100);  
+}
 
   render () {
-    var noteStyle = {
-      color: "red"
-  }
-
 
     var notes = this.state.notes.map((contents,i)=>{
 
-      return <Note {...contents} key={i} />
-    })
+      return <Note {...contents} style={this.state.bind} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} key={i} />
+    },this)
 
     return (
 

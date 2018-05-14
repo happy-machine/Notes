@@ -19,15 +19,14 @@ class NoteList extends React.Component{
  
   constructor(props){
     super(props)
-    this.state= {
+    this.state = {
     notes:[]
     }
   }
 
   componentDidMount () {
    fetch('/notes.json').then((res)=>{
-    //this.setState({notes:res.notes})
-    console.log(res)
+     
     return res.json();
     })
     .then( (res) => { 
@@ -37,13 +36,21 @@ class NoteList extends React.Component{
     })
   }
 
+  
+
   render () {
+    var noteStyle = {
+      color: "red"
+  }
+
+
     var notes = this.state.notes.map((contents,i)=>{
-      console.log(contents)
+
       return <Note {...contents} key={i} />
     })
-    
+
     return (
+
       <div children={notes}></div>
     )
   }

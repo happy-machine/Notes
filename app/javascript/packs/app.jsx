@@ -6,22 +6,18 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import NoteList from './components/NoteList'
+import NoteWindow from './components/NoteWindow'
 
 class App extends React.Component{
 
-  render(){
-    return(
-      <div>
-        <NoteList />
-       
-      </div>
-    ) 
+  render (){
+    return [<NoteList/>,<NoteWindow />]
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <App />
-  ,document.getElementById('app')
+document.addEventListener ( 'DOMContentLoaded' , () => {
+  ReactDOM.render (
+    <App/>
+  , document.getElementById ( 'app' )
   )
 })

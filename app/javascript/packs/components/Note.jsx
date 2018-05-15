@@ -3,46 +3,25 @@ class Note extends React.Component {
     
     constructor ( props ){
         super ( props )
-        this.state = ({
-            opacity:'0',
-            color:'green'
-        })
     }
 
-    onMouseOver = () => {
-        this.setState({ color:'red' })   
+    componentDidMount ( props ){ 
     }
 
-    onMouseOut = () => {
-        this.setState({ color:'green' })       
+    dataTransfer = (e) => {
+       console.log('on mouse over '+e)
     }
 
-    refresh = () =>{
-        setTimeout ( ( props ) => {
-          if ( this.state.color!='red' ){
-                var localOpacity = parseFloat ( this.state.opacity )
-                localOpacity+=0.01
-                this.state.opacity > 1.1 ? this.setState ({ opacity:'0' }) : this.setState ({ opacity: localOpacity.toString() })
-            }
-            this.refresh ()
-         }, 100);  
-    }
-      
-    componentDidMount () {
-         this.refresh ()
+    onMouseOut = (e) => {
+        console.log('on mouse out '+e)
     }
 
-    render () {
+    render () {  
         return (
             // seperate new line seperate text into spans
-            this.props.content.split ( '\\n' ).map ( function ( line, key ) {        
-                return (
-                    <span key={key} style={this.state} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}>
-                        {line}
-                        <br/>
-                    </span>
-                )
-            },this ) 
+                <textarea dataTransfer={this.onMouseOut}>
+                    {this.props.content}
+                </textarea>
         )
     }
 }

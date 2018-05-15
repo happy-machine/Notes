@@ -1,57 +1,33 @@
 import React from 'react'
 import Note from './Note'
-/*
-class NoteList extends React.Component{
-  this.notes = ['Jake', 'Jon', 'Thruster'];
-  this.notesList = notes.map((contents,i)=>{
-    return <div><Note contents={contents} key={i}/></div>
-  })
-    render(){
-      return(
-        <div>
-          <Note />
-        </div>
-      )
-    }
-  }*/
 
-class NoteList extends React.Component{
+class NoteList extends React.Component {
  
-  constructor(props){
-    super(props)
+  constructor ( props ){
+    super ( props )
     this.state = {
-    notes:[]
+      notes: []
     }
   }
 
   componentDidMount () {
-   fetch('/notes.json').then((res)=>{
-     
-    return res.json();
+   fetch ( '/notes.json' ) .then ( (res) => {
+    return res.json () 
     })
     .then( (res) => { 
-      this.setState({notes:res})
+    this.setState ({ notes:res })
     })
-    .catch( e => { console.log(e) 
+    .catch ( e => { console.log (e) 
     })
   }
-
-  
 
   render () {
-    var noteStyle = {
-      color: "red"
-  }
-
-
-    var notes = this.state.notes.map((contents,i)=>{
-
-      return <Note {...contents} key={i} />
-    })
+    var notes = this.state.notes .map (( contents,i ) => {
+      return <Note className="preview" {...contents} key={i}/>
+    } , this )
 
     return (
-
-      <div children={notes}></div>
+      <div className="list" children={notes}></div>
     )
   }
 }

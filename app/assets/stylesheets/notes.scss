@@ -1,3 +1,22 @@
 // Place all the styles related to the Notes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#app {
+    display:grid;
+    background-color: rgb(238, 240, 134);
+    grid-template-columns: 30%;
+    grid-template-rows: 0% 3%;
+}
+
+.list {
+    padding: 3%;
+    grid-column: 1 / span 1;
+    grid-row-start: 2;
+}
+
+.window {
+    padding: 3%;
+    grid-column: 2/ span 1;
+    grid-row-start: 2;
+}

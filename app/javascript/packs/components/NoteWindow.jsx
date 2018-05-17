@@ -31,6 +31,7 @@ class NoteWindow extends React.Component {
     new = () => {
         this.setState ({ value: ''})
         this.props.newNote ()
+        this.textarea.focus(); 
     }
 
     render () {  

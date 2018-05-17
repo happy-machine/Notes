@@ -3,9 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 $light_yellow: #FFF576;
-$post_yellow: rgb(238, 240, 121);
-//$light_yellow: rgb(238, 240, 134);
-//rgb(255, 253, 118);rgb(238, 240, 134);
+$post_yellow: rgb(255, 253, 149);
+
 body {
     background-color: $post_yellow;
     font-family: sans-serif;
@@ -38,6 +37,41 @@ body {
         box-shadow: 0 11px 4px rgba(66, 66, 66, 0.3);
     }
 }
+
+.showArrow{
+    position: absolute;
+    background-image: url("./arrow.png");
+    top: 100px;
+    height: 20px;
+    width: 30px;
+    opacity: 3;
+    background-repeat: no-repeat, repeat;
+    background-size:contain;
+    top: 0px;
+    left: 89%;
+    animation: backandforth 2s ease 0s;
+    -webkit-animation-iteration-count:infinite;
+    animation-iteration-count:infinite;
+}
+
+@keyframes backandforth {0%{left:88%;} 50%{left:90%;} 100%{left:88%;}}
+
+.bounceArrow{
+    animation-name: bounce;
+    animation-iteration-count: infinite;
+    animation-duration: 4.2s;
+}
+
+@keyframes bounce {
+    from, to  {
+      botttom: 0;
+      animation-timing-function: ease-out;
+    }
+    50% {
+      bottom: 220px;
+      animation-timing-function: ease-in;
+    }
+  }
 
 .trash_note{
     position:absolute;

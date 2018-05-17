@@ -24,7 +24,6 @@ class NoteList extends React.Component {
       return res.json () 
     })
     .then ( (res) => { 
-      //this.setState ({ notes: [{content:''},{content:''}] }) // ??
       this.setState ({ notes: res })
       console.log('res is', res)
       console.log('state is',this.state)

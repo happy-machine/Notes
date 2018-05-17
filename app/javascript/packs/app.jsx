@@ -8,8 +8,8 @@ class App extends React.Component{
   constructor ( props ){
     super ( props )
     this.state = { selectedNote: {} }
-    this.noteListRef = React.createRef();
-    this.windowRef = React.createRef();
+    this.noteListRef = React.createRef ()
+    this.windowRef = React.createRef ()
   }
 
   noteSelected = (note) => {
@@ -55,6 +55,7 @@ class App extends React.Component{
   }
 
   refresh = ( res ) => {
+      this.noteListRef.current.setState ({ notes: [] }) // ??
       this.noteListRef.current.populateNotes ()
   }
 
@@ -62,15 +63,22 @@ class App extends React.Component{
     this.windowRef.current.clearWindow ()
   }
 
+  showArrow = () => {
+    this.arrow = document.getElementById('arrow')
+    this.arrow.classList.toggle("showArrow");
+    //this.arrow.classList.toggle("bounceArrow");
+  }
+
   render (){
     return [ 
         <NoteList key="note_list" { ...this.state } onNoteSelect={ this.noteSelected } ref={ this.noteListRef }/> , 
-        <div key="new_note" onClick={ this.newNote } className={'new_note'}>
+        <div key="arrow" id={ 'arrow' }></div> ,
+        <div key="new_note" onClick={ this.newNote } className={ 'new_note' }>
           <p>New Note</p>
           <div key="trash_note" onClick={ this.deleteNote } className="trash_note"></div>
         </div> ,
         <NoteWindow key="note_window" { ...this.state.selectedNote } saveNote={ this.saveNote } newNote={ this.newNote } ref={ this.windowRef }/> , 
-        <div key="notes_logo" className="notes_logo"></div> 
+        <div key="notes_logo" onClick={ this.showArrow } className="notes_logo"></div> 
     ]
   }
 }

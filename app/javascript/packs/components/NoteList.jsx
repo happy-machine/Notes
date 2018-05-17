@@ -10,24 +10,37 @@ class NoteList extends React.Component {
     }
   }
 
-  componentDidMount () {
-   fetch ( '/notes.json' ) .then ( (res) => {
-    return res.json () 
-    })
-    .then( (res) => { 
-    this.setState ({ notes:res })
-    })
-    .catch ( e => { console.log (e) 
-    })
+  static getDerivedStateFromProps ( nextProps , prevState ){
+    return nextProps;
   }
 
+  componentDidMount () {
+  this.populateNotes()
+  }
+
+  populateNotes = () => {
+    fetch ( '/notes.json' ) 
+    .then ( ( res ) => {
+      return res.json () 
+    })
+    .then ( (res) => { 
+      //this.setState ({ notes: [{content:''},{content:''}] }) // ??
+      this.setState ({ notes: res })
+      console.log('res is', res)
+      console.log('state is',this.state)
+    })
+    .catch ( e => { 
+      console.log ( e ) 
+    })
+  }
+ 
   render () {
     var notes = this.state.notes .map (( contents,i ) => {
-      return <Note className="preview" {...contents} key={i}/>
+      return <Note onClick={ this.props.onNoteSelect } className="preview" { ...contents }  key={ i }/>
     } , this )
 
     return (
-      <div className="list" children={notes}></div>
+      <div className="list" children={ notes }></div>
     )
   }
 }

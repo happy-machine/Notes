@@ -24,9 +24,16 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
-    @note = Note.new(note_params)
+    if params[:content]
+      if params[:id] && Note.exists?(params[:id])
+        @note = Note.find(params[:id])
+        @note.content = params[:content]
+      else
+        @note = Note.new(note_params)
+      end
+    end
 
-    respond_to do |format|
+  respond_to do |format|
       if @note.save
         format.html { redirect_to @note, notice: 'Note was successfully created.' }
         format.json { render :show, status: :created, location: @note }
@@ -34,7 +41,7 @@ class NotesController < ApplicationController
         format.html { render :new }
         format.json { render json: @note.errors, status: :unprocessable_entity }
       end
-    end
+   end
   end
 
   # PATCH/PUT /notes/1
@@ -69,6 +76,6 @@ class NotesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:title, :content, :tags)
+      params.require(:note).permit(:title, :content, :tags, :id)
     end
 end

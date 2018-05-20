@@ -18,30 +18,26 @@ class App extends React.Component{
   }
 
   saveNote = (note) => {
-    if ( note.length ){
-      fetch( '/notes.json' , {
-        method: 'POST',
+    if (this.state.selectedNote.id){
+      this.serverAction ({ path: `/notes/${ this.state.selectedNote.id }.json`, method: 'PUT', body: JSON.stringify ({ content: note }) })
+    } else {
+      this.serverAction ({ path: '/notes.json', method: 'POST', body: JSON.stringify ({ content: note }) })
+    }
+  }
+
+  deleteNote = () => {
+    this.serverAction ({ path: `/notes/${ this.state.selectedNote.id }.json`, method: 'DELETE', body: undefined })
+  }
+  
+  serverAction = ( args ) => {
+      fetch ( args.path , {
+        method: args.method,
         credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
           },
-        body: JSON.stringify ({ content: note , id: this.state.selectedNote.id })
-      }) 
-      .then ( ( res ) => { 
-        this.refresh ( res )
-      })
-    }
-  }
-
-  deleteNote = () => {
-      fetch( `/notes/${ this.state.selectedNote.id } .json` , {
-        method: 'DELETE',
-        credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
-          }
+          body: args.body
       }) 
       .then ( ( res ) => { 
         this.refresh ( res )

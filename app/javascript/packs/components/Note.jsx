@@ -7,7 +7,7 @@ class Note extends React.Component {
         this.state = { value: this.props.content }
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
+    static getDerivedStateFromProps( nextProps, prevState ){
         return nextProps;
     }
 
@@ -16,9 +16,12 @@ class Note extends React.Component {
         this.props.onClick ( this.state )
     }
 
+    // get first line and return up to first 5 words 
     format_title = function ( content ){
         if ( content && content.length ){
-            return content .split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) .split ( ' ' ) .slice ( 0,5 ) .join ( ' ' ) + "\n"
+            return content .split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
+                .split ( ' ' ) .slice ( 0,5 ) .join ( ' ' ) + "\n"
+                
         }
     }
 

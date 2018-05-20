@@ -24,12 +24,15 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
+    p params
     if params[:content]
       if params[:id] && Note.exists?(params[:id])
         @note = Note.find(params[:id])
         @note.content = params[:content]
+        puts "here"
       else
         @note = Note.new(note_params)
+        p @note
       end
     end
 

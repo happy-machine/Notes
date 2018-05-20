@@ -1,0 +1,13 @@
+a:hover{
+    background-color: #0081a8e1!important;
+    color:#FFF576;
+}
+a{
+    text-decoration:none!important; 
+    font-family: sans-serif;
+    color: inherit;
+
+}
+textarea::placeholder {
+    color:  #7ea4afe1
+  }

@@ -3,7 +3,7 @@
   "name": "Notes",
   "version": "1.0",
   "description": "Don't forget, use Notes!",
-  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "permissions": ["activeTab", "tabs", "declarativeContent", "contextMenus", "storage", "http://localhost/*","clipboardWrite","clipboardRead"],
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"],
@@ -14,5 +14,26 @@
    "default_icon": "tab-icon.png",
    "default_title": "Notes",
    "default_popup": "popup.html"
- }
+ },
+ "web_accessible_resources": [
+  "css_file.css"
+],
+ "commands": {
+  "save" : {
+      "suggested_key": {
+           "default": "Alt+Shift+S" 
+      },
+      "description": "Save a link"
+  },
+  "random": {
+      "suggested_key": {
+          "default": "Alt+Shift+L"
+      },
+      "description": "Load a random link"
+  }},
+  
+
+ "content_scripts" : [
+  { "matches" : ["http://*/*", "https://*/*", "file://*/*"] , "js" : [ "popup.js" ],"css": ["css_file.css"] }
+]
 }

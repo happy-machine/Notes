@@ -27,7 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # DELETE /resource
   def destroy
-    #cookies[:notes_token] = ''
+    cookies[:notes_token] = ''
     super
   end
 

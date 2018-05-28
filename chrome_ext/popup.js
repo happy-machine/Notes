@@ -10,7 +10,7 @@ window.onload = () => {
 }
 
 var save = (content) => {
-  fetch ( `http://localhost:${port}/notes.json` , {
+  fetch ( `https://notes-app-w.herokuapp.com/notes.json` , {
       method: 'POST',
       body: JSON.stringify ({ content: content}) ,
       headers: {
@@ -26,8 +26,9 @@ var save = (content) => {
 }
 
 var getToken = () => {
+ this.chrome.cookies.getAllCookieStores((res)=>{console.log(res)})
 this.chrome.cookies.getAll( {} ,function (cookie) {
-
+console.log('cookies',cookie)
   return cookie.forEach ( (cookie, i ) => { 
     if (cookie.name == "notes_token") {
       return getNotes (cookie.value) } 
@@ -42,7 +43,7 @@ this.chrome.cookies.getAll( {} ,function (cookie) {
 var getNotes = (token) => {
   console.log('token',token)
   if (token){
-    fetch ( `http://localhost:${port}/get_notes.json` 
+    fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
         ,{headers: {
           'authentication-token': token
         }}
@@ -95,7 +96,7 @@ var errorLink = document.createElement ( 'div' )
 errorLink.setAttribute ( 'id' , 'error-link' )
 errorLink.innerHTML = `<div id="el-text">${message.text}</div><div id="el-bold">${message.bold}</div>`
 document.getElementById( 'parent' ).appendChild (errorLink)
-errorLink.addEventListener( "click", function() { window.open ( `http://localhost:${port}/users/sign_in` , '_blank' ) })
+errorLink.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/users/sign_in` , '_blank' ) })
 }
 
 var printResults = ( res, token, parent) => {
@@ -103,9 +104,9 @@ console.log('passed ref', res)
   var divCreate, div 
   res.forEach ( (item,i) => { 
       div = document.createElement('a')
-      div.addEventListener( "click", function() { window.open ( `http://localhost:${port}/notes/${item.id}/edit` , '_blank' ) })
+      div.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/notes/${item.id}/edit` , '_blank' ) })
       if ( div.classList.contains ( "a-link" ) ){
-          chrome.tabs.create ({ url: `http://localhost:${port}/notes/${item.i}` })
+          chrome.tabs.create ({ url: `https://notes-app-w.herokuapp.com/notes/${item.i}` })
           return false
       }
       div.innerHTML = item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 

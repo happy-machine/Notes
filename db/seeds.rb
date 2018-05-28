@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+=begin
 Note.create!(title:'Get a job',content:"Ruby Notes
 
    
@@ -306,3 +306,5 @@ Note.create!(title:'Groceries', content:"Shopping List\n\nCarrots\nCucumber\nBis
 Note.create!(title:'Dubplates', content:"Dubplates\n\nNew diplo thing\nGTA - Bootybash\nRedlight single\nThe Feeling VIP\n", tags:"groceries")
 Note.create!(title:'Get a job', content:"Work Notes\n\nFind a group of potential legends and join.\nWrite a CV\nStart running again\n", tags:"groceries")
 Note.create!(title:'Emilys Birthday', content:"Emily's Birthdays\n\nGet Cake\nBook restaurant\nCall Jade and Beccy\nOrder Capybara\n", tags:"groceries")
+=end
+Note.create!(content:"New Note\n\n")

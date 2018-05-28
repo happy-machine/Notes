@@ -13,11 +13,13 @@
   <section class="wow slideInLeft"></section>
   <section class="wow slideInRight"></section>
   <% if notice %>
-    <p class="alert"><%= notice %></p>
+    <p class="alert alert-success"><%= notice %></p>
   <% end %>
   <% if alert %>
-    <p class="alert"><%= alert %></p>
+    <p class="alert alert-danger"><%= alert %></p>
   <% end %>
+  <div id="appCopy">
     <%= yield %>
+  </div>
   </body>
 </html>

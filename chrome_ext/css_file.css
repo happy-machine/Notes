@@ -11,3 +11,18 @@ a{
 textarea::placeholder {
     color:  #7ea4afe1
   }
+
+#error-link{
+    display:inline-block;
+  
+}  #el-bold{
+    cursor: pointer;
+    display:inline-block;
+    position:relative;
+   
+    font-weight:700;
+}  #el-text{
+    display:inline-block;
+    position:relative;
+    padding:3px;
+    }

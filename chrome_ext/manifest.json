@@ -3,7 +3,7 @@
   "name": "Notes",
   "version": "1.0",
   "description": "Don't forget, use Notes!",
-  "permissions": ["activeTab", "tabs", "declarativeContent", "contextMenus", "storage", "http://localhost/*","clipboardWrite","clipboardRead"],
+  "permissions": ["activeTab", "tabs", "declarativeContent", "contextMenus", "cookies", "storage", "http://localhost/*","clipboardWrite","clipboardRead"],
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"],

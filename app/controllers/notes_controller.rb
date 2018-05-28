@@ -4,35 +4,59 @@ class NotesController < ApplicationController
   # GET /notes
   # GET /notes.json
   def index
-    @notes = Note.all
+  if user_signed_in?
+    session[:user_id] = current_user.id
+  else
+    redirect_to '/users/sign_in'
+  end
+
   end
 
   # GET /notes/1
   # GET /notes/1.json
   def show
+
   end
 
   # GET /notes/new
   def new
-    @note = Note.new
+   
   end
 
   # GET /notes/1/edit
   def edit
   end
 
+  def get_notes
+    puts "in get notes"
+    @notes=Note.all
+    puts "user"
+    if request.headers.env['HTTP_AUTHENTICATION_TOKEN'] || request.headers['HTTP_AUTHENTICATION_TOKEN'] == current_user.authentication_token
+    respond_to do |format|
+      format.html { render :getnotes }
+      format.json { render :getnotes }
+    end
+  end
+=begin
+    if current_user.authentication_token == request.headers['HTTP_AUTHENTICATION_TOKEN']
+      respond_to do |format|
+        format.html { render :getnotes }
+        format.json { render :getnotes }
+      end
+    end
+=end
+  end
+
   # POST /notes
   # POST /notes.json
   def create
-    p params
+    @note = Note.new
     if params[:content]
       if params[:id] && Note.exists?(params[:id])
         @note = Note.find(params[:id])
         @note.content = params[:content]
-        puts "here"
       else
         @note = Note.new(note_params)
-        p @note
       end
     end
 
@@ -52,7 +76,7 @@ class NotesController < ApplicationController
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to @note, notice: 'Note was successfully updated.' }
+        format.html { redirect_back(fallback_location: root_path) }
         format.json { render :show, status: :ok, location: @note }
       else
         format.html { render :edit }
@@ -77,8 +101,13 @@ class NotesController < ApplicationController
       @note = Note.find(params[:id])
     end
 
+    def check_cookie
+      params(:auth)==current_user.authentication_token 
+    end
+
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:title, :content, :tags, :id)
+      params.require(:note).permit(:title, :content, :tags, :id, :auth, :authentication_token, :auth_token, :authentication_token_created_at, :controller, :action)
     end
 end

@@ -1,83 +1,130 @@
+var port = '3500'
 var reload = () => {
+      setup()
+      getToken()
 
-    setTimeout (()=>{
-        fetch ( 'http://localhost:3000/notes.json' ) 
-            .then ( ( res ) => {
-                return res.json () 
-            })
-            .then ( (res) => { 
-                printResults ( res )
-            })
-            .catch ( e => { 
-                console.log ( e ) 
-            })
-    } , 90 )
+}
 
-    var printResults = ( res ) => {
-        var notes = res.map ( ( item , i ) => { 
-            return item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
-            .split ( ' ' ) .slice ( 0,5 ) .join ( ' ' ) + "\n"
-        })
-        
-        var divCreate, div , parent = document.createElement('div')
-        parent.setAttribute('id','parent')
-        document.getElementById("list").appendChild(parent);
-        res.forEach((item,i)=>{ 
-            div = document.createElement('a')
-            div.addEventListener( "click", function(){ window.open(`http://localhost:3000/notes/${item.id}`,'_blank') })
-            if ( div.classList.contains ( "a-link" ) ){
-                chrome.tabs.create ({ url: `http://localhost:3000/notes/${item.i}`})
-                return false;
-            }
-            div.innerHTML=item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
-            .split ( ' ' ) .slice ( 0,5 ) .join ( ' ' )+"</BR>"
-            div.setAttribute( 'id' , i )
-            div.setAttribute( 'class','notes' );
-            document.getElementById( "parent" ).appendChild( div )
-        })
-        var area = document.querySelector('textarea');
-        if (area.addEventListener) {
-            area.addEventListener('input', function(e) {
-              if (e.data == null){
-                  save(e.target.value)
-              }
-            }, false);
-        } else if (area.attachEvent) {
-              area.attachEvent('onpropertychange', function() {// IE-specific event handling code
-                })
-              }
-    }
+window.onload = () => {
+  reload ()
+}
 
-    var save = (content) => {
-        fetch ( 'http://localhost:3000/notes.json' , {
-            method: 'POST',
-            body: JSON.stringify ({ content: content}) ,
-            headers: {
-              'Content-Type': 'application/json',
-            }
-        }) 
-        .then ( ( res ) => { 
-            clear ()
-        }).catch((e)=>{
-            console.log(e)
+var save = (content) => {
+  fetch ( `http://localhost:${port}/notes.json` , {
+      method: 'POST',
+      body: JSON.stringify ({ content: content}) ,
+      headers: {
+        'Content-Type': 'application/json' ,
+      }
+  }) 
+  .then ( ( res ) => { 
+      clear ()
+     
+  }).catch ( (e) => {
+      console.log ( e )
+  })
+}
+
+var getToken = () => {
+this.chrome.cookies.getAll( {} ,function (cookie) {
+
+  return cookie.forEach ( (cookie, i ) => { 
+    if (cookie.name == "notes_token") {
+      return getNotes (cookie.value) } 
+    
+  }) || error('no token')
+
+})
+}
+
+
+
+var getNotes = (token) => {
+  console.log('token',token)
+  if (token){
+    fetch ( `http://localhost:${port}/get_notes.json` 
+        ,{headers: {
+          'authentication-token': token
+        }}
+        ) 
+        .then ( ( res ) => {
+            return res.json () 
         })
-    }
+        .then ( (res) => { 
+          document.contains(document.getElementById("error-link")) ? document.getElementById("error-link").remove() : null
+          document.getElementById("area").style.height = "18px"
+          document.getElementById("area").style.display = "inline"
+            printResults ( res, token, parent)
+        })
+        .catch ( e => { 
+            //console.log ( 'error:', e ) 
+        })
+  } else {
+    error ('no token')
+  }}
+
+
+var setup = () => {
+  // Add error 
+
+  var parent = document.createElement('div')
+  parent.setAttribute ( 'id' , 'parent' )
+  document.getElementById( "list" ).appendChild ( parent );
+  document.getElementById("area").style.display = "none"
+  document.getElementById("area").style.height = "0px!important"
 }
 
 var clear = () => {
-    var parentThis = document.getElementById("parent");
-    parentThis.parentElement.removeChild(parentThis);
-    area.value = '';
-    reload()
+  var parentThis = document.getElementById ( "parent" )
+  parentThis.parentElement.removeChild ( parentThis )
+  area.value = ''  
+
+  reload ()
 }
 
-reload()
+var error = (arg) => {
+  switch (arg){
+    case 'no token' : errorMessage ( {text: 'Please', bold: 'Log In.'}) ; break;
+  }
+}
 
+var errorMessage = ( message ) => {
+document.contains(document.getElementById("error-link")) ? document.getElementById("error-link").remove() : null
+document.body.style = "height:18px; width:90px; background-color:#FFF576;"
+var errorLink = document.createElement ( 'div' )
+errorLink.setAttribute ( 'id' , 'error-link' )
+errorLink.innerHTML = `<div id="el-text">${message.text}</div><div id="el-bold">${message.bold}</div>`
+document.getElementById( 'parent' ).appendChild (errorLink)
+errorLink.addEventListener( "click", function() { window.open ( `http://localhost:${port}/users/sign_in` , '_blank' ) })
+}
 
-
-
-
-
+var printResults = ( res, token, parent) => {
+console.log('passed ref', res)
+  var divCreate, div 
+  res.forEach ( (item,i) => { 
+      div = document.createElement('a')
+      div.addEventListener( "click", function() { window.open ( `http://localhost:${port}/notes/${item.id}/edit` , '_blank' ) })
+      if ( div.classList.contains ( "a-link" ) ){
+          chrome.tabs.create ({ url: `http://localhost:${port}/notes/${item.i}` })
+          return false
+      }
+      div.innerHTML = item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
+      .split ( ' ' ) .slice ( 0,5 ) .join ( ' ' ) + "</BR>"
+      div.setAttribute ( 'id' , i )
+      div.setAttribute ( 'class','notes' );
+      document.getElementById ( "parent" ).appendChild ( div )
+  })
+  var area = document.querySelector ( 'textarea' )
+  if ( area.addEventListener ) {
+      area.addEventListener ( 'input' , function ( e ) {
+        if ( e.data == null ){
+            save ( e.target.value )
+        }
+      }, false );
+  } else if ( area.attachEvent ) {
+        area.attachEvent ( 'onpropertychange', function() {  })       
+        }
+}
   /*
   navigator.clipboard.writeText('Text to be copied')
   .then(() => {

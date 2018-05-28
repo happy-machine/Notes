@@ -41,7 +41,7 @@ class App extends React.Component{
       }) 
       .then ( ( res ) => { 
         this.refresh ( res )
-        this.clearWindow ( res )
+        //this.clearWindow ( res )
       })
   }
 
@@ -51,8 +51,7 @@ class App extends React.Component{
   }
 
   refresh = ( res ) => {
-      this.noteListRef.current.setState ({ notes: [] }) // ??
-      this.noteListRef.current.populateNotes ()
+    this.noteListRef.current.populateNotes ()
   }
 
   clearWindow = () => {
@@ -60,8 +59,9 @@ class App extends React.Component{
   }
 
   showArrow = () => {
+    /*
     this.arrow = document.getElementById('arrow')
-    this.arrow.classList.toggle("showArrow");
+    this.arrow.classList.toggle("showArrow");*/
     //this.arrow.classList.toggle("bounceArrow");
   }
 

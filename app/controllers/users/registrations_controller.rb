@@ -11,7 +11,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 
    def create
-
+  
     super
    end
 
@@ -26,9 +26,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # DELETE /resource
-  cookie[:notes_token] = ''
-  super
-  # end
+  def destroy
+    #cookies[:notes_token] = ''
+    super
+  end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign

@@ -17,6 +17,7 @@ gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
+ruby '2.4.1'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -46,5 +47,9 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
 
+  group :production do
+  gem 'rails_12factor'
+  gem 'pg'
+end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

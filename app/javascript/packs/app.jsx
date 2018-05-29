@@ -30,7 +30,12 @@ class App extends React.Component{
   }
   
   serverAction = ( args ) => {
-      fetch ( args.path , {
+
+    var url = new URL(args.path),
+    params = { browser:true }
+    Object.keys ( params ).forEach( key => url.searchParams.append ( key, params[key] ))
+
+      fetch ( url , {
         method: args.method,
         credentials: 'include',
           headers: {

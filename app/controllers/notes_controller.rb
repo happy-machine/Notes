@@ -104,6 +104,7 @@ class NotesController < ApplicationController
 
     def get_id  
       puts "id in get it"
+      puts request.headers.env['HTTP_USER_ID']
         return request.headers.env['HTTP_USER_ID']
        
     end

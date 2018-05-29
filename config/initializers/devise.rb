@@ -263,6 +263,7 @@ Devise.setup do |config|
   config.sign_out_via = :delete
   Warden::Manager.after_set_user do |user,auth,opts|
   auth.cookies[:notes_token]=user.authentication_token
+  auth.cookies[:notes_id]=user.id
   end
 
   # ==> OmniAuth

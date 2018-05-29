@@ -5,7 +5,7 @@ class NotesController < ApplicationController
   # GET /notes.json
   def index
   if user_signed_in?
-    session[:user_id] = current_user.id
+    
   else
     redirect_to '/users/sign_in'
   end
@@ -29,8 +29,8 @@ class NotesController < ApplicationController
 
   def get_notes
     puts "in get notes"
-    puts current_user.id
-    @user = User.find(current_user.id)
+    puts cookies[:notes_id]
+    @user = User.find(cookies[:notes_id]||current_user.id)
     @notes = @user.notes.all
     puts "user"
     puts request.headers.env['HTTP_AUTHENTICATION_TOKEN']
@@ -56,7 +56,7 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
-    @user = User.find(current_user.id)
+    @user = User.find(cookies[:notes_id]||current_user.id)
     if params[:content]
       if params[:id] && Note.exists?(params[:id])
         @note = Note.find(params[:id])

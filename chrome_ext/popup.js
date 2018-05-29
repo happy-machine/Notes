@@ -25,23 +25,34 @@ var save = (content) => {
 }
 
 var getToken = () => {
- this.chrome.cookies.getAllCookieStores((res)=>{console.log(res)})
 this.chrome.cookies.getAll( {} ,function (cookie) {
   return cookie.forEach ( (cookie, i ) => { 
     if (cookie.name == "notes_token") {
-      return getNotes (cookie.value) } 
+      return getNotes (cookie.value,getId) } 
     
   }) || error('no token')
 
 })
 }
 
-var getNotes = (token) => {
+var getId = () => {
+ this.chrome.cookies.getAll( {} ,function (cookie) {
+   return cookie.forEach ( (cookie, i ) => { 
+     if (cookie.name == "notes_id") {
+       return cookie.value } 
+     
+   }) || error('no token')
+ 
+ })
+ }
+
+var getNotes = (token, id) => {
   if (token){
     console.log('token',token)
     fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
         ,{headers: {
-          'authentication-token': token
+          'authentication-token': token,
+          'user-id': id
         }}
         ) 
         .then ( ( res ) => {

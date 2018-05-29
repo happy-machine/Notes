@@ -30,7 +30,7 @@ class NotesController < ApplicationController
   def get_notes
     puts "in get notes"
     puts cookies[:notes_id]
-    @user = User.find(cookies[:notes_id])
+    @user = User.find(request.headers.env['HTTP_USER_ID'])
     @notes = @user.notes.all
     puts "user"
     puts request.headers.env['HTTP_AUTHENTICATION_TOKEN']
@@ -56,7 +56,7 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
-    @user = User.find(cookies[:notes_id])
+    @user = User.find(request.headers.env['HTTP_USER_ID'])
     if params[:content]
       if params[:id] && Note.exists?(params[:id])
         @note = Note.find(params[:id])

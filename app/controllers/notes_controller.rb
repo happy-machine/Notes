@@ -29,14 +29,13 @@ class NotesController < ApplicationController
 
   def get_notes
     puts "in get notes"
-    request.headers.env['HTTP_USER_ID']
     @user = User.find(get_id)
     @notes = @user.notes.all
     puts "user"
-    puts request.headers.env['HTTP_USER_ID']
+    p request.headers.env
     puts current_user
     puts cookies[:notes_id]
-    puts request.headers.env['HTTP_AUTHENTICATION_TOKEN']
+ 
     puts @user.authentication_token
 
     if request.headers.env['HTTP_AUTHENTICATION_TOKEN'] || request.headers['HTTP_AUTHENTICATION_TOKEN'] == @user.authentication_token

@@ -7,14 +7,36 @@ import NoteWindow from './components/NoteWindow'
 class App extends React.Component{
   constructor ( props ){
     super ( props )
-    this.state = { selectedNote: {} }
+    this.state = { 
+      selectedNote: {},
+      token: '',
+      id: ''
+    }
     this.noteListRef = React.createRef ()
     this.windowRef = React.createRef ()
+  }
+
+  componentDidMount () {
+    this.getToken_populateNote()
   }
 
   noteSelected = (note) => {
     this.setState ({ selectedNote:note } , () => { 
     })
+  }
+
+getToken_populateNote = () => {
+  var cookie = document.cookie, id, token
+  cookie.split(';').forEach((piece)=>{
+      if ( piece.indexOf('notes_id')  != -1 ) {
+        id = piece.split('=')[1]
+      }
+      if ( piece.indexOf('notes_token') != -1) {
+        token = piece.split('=')[1]
+      }
+      this.setState({ id: id, token: token })
+      console.log(id,token)
+  })
   }
 
   saveNote = (note) => {
@@ -36,6 +58,8 @@ class App extends React.Component{
           headers: {
             'Content-Type': 'application/json',
             'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
+            'authentication-token': this.state.token,
+            'user-id': this.state.id
           },
           body: args.body
       }) 
@@ -51,7 +75,7 @@ class App extends React.Component{
   }
 
   refresh = ( res ) => {
-    this.noteListRef.current.populateNotes ()
+    this.noteListRef.current.populateNotes (this.state.token,this.state.id)
   }
 
   clearWindow = () => {

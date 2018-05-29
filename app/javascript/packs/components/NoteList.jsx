@@ -7,6 +7,7 @@ class NoteList extends React.Component {
     super ( props )
     this.state = {
       notes: [],
+      id: '',
       token: ''
     }
   }
@@ -20,23 +21,28 @@ class NoteList extends React.Component {
   }
 
   getToken_populateNote = () => {
-    var cookie = document.cookie
-      if (cookie.split('=')[0] == "notes_token"){
-        this.setState({ token: cookie.split('=')[1] }, this.populateNotes(cookie.split('=')[1]))
-      
-      }
+    var cookie = document.cookie, id, token
+    cookie.split(';').forEach((piece)=>{
+        if ( piece.indexOf('notes_id')  != -1 ) {
+          id = piece.split('=')[1]
+        }
+        if ( piece.indexOf('notes_token') != -1) {
+          token = piece.split('=')[1]
+        }
+        this.populateNotes( token, id )
+    })
     }
 
 
 
-  populateNotes = (token) => {
-    //fetch ( `/notes.json?auth=${token}` ) 
-     fetch ( `/get_notes.json?browser=true`,{
+  populateNotes = ( token , id ) => {
+     fetch ( `/get_notes.json`,{
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
-        'authentication-token': token
+        'authentication-token': token,
+        'user-id': id
       }
      } ) 
     .then ( ( res ) => {

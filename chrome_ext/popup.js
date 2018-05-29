@@ -33,6 +33,7 @@ var getCredentials = () => { return new Promise ((resolve,fail) => {
   var id, token
   this.chrome.cookies.getAll( {} ,function (cookie) {
     cookie.forEach ( (cookie, i ) => { 
+      console.log(cookie)
       if (cookie.name == "notes_id") {
         id = cookie.value
       }

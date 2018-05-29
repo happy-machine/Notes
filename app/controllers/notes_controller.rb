@@ -29,11 +29,16 @@ class NotesController < ApplicationController
 
   def get_notes
     puts "in get notes"
+    puts current_user.id
     @user = User.find(current_user.id)
     @notes = @user.notes.all
     puts "user"
+    puts request.headers.env['HTTP_AUTHENTICATION_TOKEN']
+    puts current_user.authentication_token
+
     if request.headers.env['HTTP_AUTHENTICATION_TOKEN'] || request.headers['HTTP_AUTHENTICATION_TOKEN'] == current_user.authentication_token
-    respond_to do |format|
+    puts "matched"
+      respond_to do |format|
       format.html { render :getnotes }
       format.json { render :getnotes }
     end

@@ -38,6 +38,7 @@ this.chrome.cookies.getAll( {} ,function (cookie) {
 
 var getNotes = (token) => {
   if (token){
+    console.log('token',token)
     fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
         ,{headers: {
           'authentication-token': token

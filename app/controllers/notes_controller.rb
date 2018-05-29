@@ -115,8 +115,9 @@ class NotesController < ApplicationController
         current_user.id
       else
         puts "browser"
-        p session[:notes_id]
-        return session[:notes_id]
+        p auth.cookies[:notes_id]
+        p cookies[:notes_id]
+        return  auth.cookies[:notes_id]
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -28,7 +28,7 @@ var getToken = () => {
 this.chrome.cookies.getAll( {} ,function (cookie) {
   return cookie.forEach ( (cookie, i ) => { 
     if (cookie.name == "notes_token") {
-      return getNotes (cookie.value,getId) } 
+      return getNotes (cookie.value,getId()) } 
     
   }) || error('no token')
 

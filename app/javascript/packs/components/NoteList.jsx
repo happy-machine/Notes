@@ -27,7 +27,12 @@ class NoteList extends React.Component {
       }
     }
 
-
+  getIdFromCookie = () => {
+    var cookies = document.cookie.split(';')
+    cookies.forEach ( ( cookie ) => {
+      if ( cookie.indexOf ( 'notes_id' ) == 0 ) {
+       return cookie.split('=')[1]}})
+  }
 
   populateNotes = (token) => {
     //fetch ( `/notes.json?auth=${token}` ) 
@@ -36,7 +41,8 @@ class NoteList extends React.Component {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
-        'authentication-token': token
+        'authentication-token': token,
+        'notes-id': getIdFromCookie()
       }
      } ) 
     .then ( ( res ) => {

@@ -12,6 +12,13 @@ class App extends React.Component{
     this.windowRef = React.createRef ()
   }
 
+  getIdFromCookie = () => {
+    var cookies = document.cookie.split(';')
+    cookies.forEach ( ( cookie ) => {
+      if ( cookie.indexOf ( 'notes_id' ) == 0 ) {
+       return cookie.split('=')[1]}})
+  }
+
   noteSelected = (note) => {
     this.setState ({ selectedNote:note } , () => { 
     })
@@ -36,6 +43,7 @@ class App extends React.Component{
           headers: {
             'Content-Type': 'application/json',
             'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
+            'note-id': getIdFromCookie()
           },
           body: args.body
       }) 

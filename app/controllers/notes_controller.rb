@@ -109,16 +109,10 @@ class NotesController < ApplicationController
       @note = Note.find(params[:id])
     end
 
-    def get_id
-      puts "yowsers"
-      puts request.headers.env['HTTP_BROWSER_REQUEST']
-      if request.headers.env['HTTP_BROWSER_REQUEST'] == 'true'
-        puts "got browser req"
-        current_user.id
-      else
-        puts request.headers
+    def get_id  
         return request.headers.env['HTTP_USER_ID']
-      end
+        puts "id in get it"
+        p request.headers.env['HTTP_USER_ID']
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params

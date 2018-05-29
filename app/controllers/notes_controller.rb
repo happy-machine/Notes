@@ -31,13 +31,6 @@ class NotesController < ApplicationController
     puts "in get notes"
     @user = User.find(get_id)
     @notes = @user.notes.all
-    puts "user"
-    p request.headers.env
-    puts current_user
-    puts cookies[:notes_id]
- 
-    puts @user.authentication_token
-
     if request.headers.env['HTTP_AUTHENTICATION_TOKEN'] || request.headers['HTTP_AUTHENTICATION_TOKEN'] == @user.authentication_token
     puts "matched"
       respond_to do |format|
@@ -112,7 +105,7 @@ class NotesController < ApplicationController
     def get_id  
         return request.headers.env['HTTP_USER_ID']
         puts "id in get it"
-        p request.headers.env['HTTP_USER_ID']
+        puts request.headers.env['HTTP_USER_ID']
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params

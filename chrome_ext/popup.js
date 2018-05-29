@@ -4,7 +4,7 @@ var reload = () => {
       setup()
       getCredentials().then((res)=>{
         getNotes(res)
-      })
+      }).catch(e=>{console.log(e)})
      
 }
 
@@ -117,7 +117,8 @@ var printResults = ( res, token ) => {
   if ( area.addEventListener ) {
       area.addEventListener ( 'input' , function ( e ) {
         if ( e.data == null ){
-           getCredentials().then((res)=>{ return  save ( e.target.value , res )}) 
+           getCredentials().then((res)=>{ return  save ( e.target.value , res )})
+           .catch(e=>{console.log(e)}) 
         }
       }, false );
   } else if ( area.attachEvent ) {

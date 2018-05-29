@@ -1,20 +1,24 @@
 var port = '3500'
+
 var reload = () => {
       setup()
-      getToken()
+      getCredentials().then((res)=>{
+        getNotes(res)
+      })
+     
 }
 
 window.onload = () => {
   reload ()
 }
 
-var save = ( content , id ) => {
+var save = ( content , credentials ) => {
   fetch ( `https://notes-app-w.herokuapp.com/notes.json` , {
       method: 'POST',
       body: JSON.stringify ({ content: content}) ,
       headers: {
         'Content-Type': 'application/json' ,
-        'user-id': id
+        'user-id': credentials.id
       }
   }) 
   .then ( ( res ) => { 
@@ -25,52 +29,45 @@ var save = ( content , id ) => {
   })
 }
 
-var getToken = () => {
-this.chrome.cookies.getAll( {} ,function (cookie) {
-  return cookie.forEach ( (cookie, i ) => { 
-    if (cookie.name == "notes_token") {
-      return getId ( cookie.value )} 
-    
-  }) || error('no token')
+var getCredentials = () => { return new Promise ((resolve,fail) => {
+  var id, token
+  this.chrome.cookies.getAll( {} ,function (cookie) {
+    cookie.forEach ( (cookie, i ) => { 
+      if (cookie.name == "notes_id") {
+        id = cookie.value
+      }
+      if (cookie.name == "notes_token") {
+        token = cookie.value
+      }
+    })
+    if ( token && id ) { 
+      resolve( { id: id, token: token } )
+    } else {
+     fail ( error('no token') )
+    }
+  })
+})}
 
-})
+
+var getNotes = ( credentials ) => {
+  fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
+  ,{headers: {
+    'authentication-token': credentials.token,
+    'user-id': credentials.id
+  }}) 
+  .then ( ( res ) => {
+      return res.json () 
+  })
+  .then ( (res) => { 
+    document.contains(document.getElementById("error-link")) ? document.getElementById("error-link").remove() : null
+    document.getElementById("area").style.height = "18px"
+    document.getElementById("area").style.display = "inline"
+    printResults ( res, credentials.token )
+  })
+  .catch ( e => { 
+    console.log ( 'error:', e ) 
+  })
 }
-
-var getId = ( token ) => {
- this.chrome.cookies.getAll( {} ,function (cookie) {
-   return cookie.forEach ( (cookie, i ) => { 
-     if (cookie.name == "notes_id") {
-       return getNotes ( token, cookie.value )} 
-     
-   }) || error('no token')
- 
- })
- }
-
-var getNotes = (token, id) => {
-  if (token){
-    console.log('token',token)
-    fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
-        ,{headers: {
-          'authentication-token': token,
-          'user-id': id
-        }}
-        ) 
-        .then ( ( res ) => {
-            return res.json () 
-        })
-        .then ( (res) => { 
-          document.contains(document.getElementById("error-link")) ? document.getElementById("error-link").remove() : null
-          document.getElementById("area").style.height = "18px"
-          document.getElementById("area").style.display = "inline"
-            printResults ( res, token, parent)
-        })
-        .catch ( e => { 
-            //console.log ( 'error:', e ) 
-        })
-  } else {
-    error ('no token')
-  }}
 
 
 var setup = () => {
@@ -104,8 +101,7 @@ document.getElementById( 'parent' ).appendChild (errorLink)
 errorLink.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/users/sign_in` , '_blank' ) })
 }
 
-var printResults = ( res, token, parent) => {
-console.log('passed ref', res)
+var printResults = ( res, token ) => {
   var divCreate, div 
   res.forEach ( (item,i) => { 
       div = document.createElement('a')
@@ -121,7 +117,7 @@ console.log('passed ref', res)
   if ( area.addEventListener ) {
       area.addEventListener ( 'input' , function ( e ) {
         if ( e.data == null ){
-            save ( e.target.value , getId() )
+           getCredentials().then((res)=>{ return  save ( e.target.value , res )}) 
         }
       }, false );
   } else if ( area.attachEvent ) {

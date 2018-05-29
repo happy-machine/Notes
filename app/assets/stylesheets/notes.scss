@@ -10,8 +10,9 @@ body {
     font-family: sans-serif;
     color: #0080a8;
     height:100%;
-    width:92%;
+    width:95%;
 }
+
 
 ::-webkit-scrollbar { 
     display: none; 
@@ -19,7 +20,7 @@ body {
 
 .notes_logo {
     margin-top: 10px;
-    margin-left:13px;
+    margin-left:8px;
     -webkit-box-shadow: 0 8px 6px -6px black;
     -moz-box-shadow: 0 6px 6px -6px black;
     box-shadow: 0 6px 6px -6px black;
@@ -30,8 +31,8 @@ body {
     background-repeat: no-repeat, repeat;
     background-size:contain;
     color: #0080a8;
-    height:100px;
-    width:95px;
+    height:120px;
+    width:120px;
 
     &:hover{
         box-shadow: 0 11px 4px rgba(66, 66, 66, 0.3);
@@ -76,20 +77,20 @@ body {
 .trash_note{
     position:absolute;
     background-image: url("./trash_closed.png"); 
-    height:29px;
-    width:23px;
+    height:33px;
+    width:27px;
     background-color: $light_yellow;
     background-repeat: no-repeat, repeat;
     background-size:contain;
     color:rgb(0, 0, 0);
     right:5px;
-    top:3px;  
+    top:5px;  
 
     &:hover{
         background-image: url("./trash_lid.png"); 
-        height:28px;
-        width:22px;
-        top:4px;
+        height:32px;
+        width:26px;
+        top:6px;
         right:6px;  
     }
 
@@ -116,16 +117,18 @@ textarea {
 #app {
     display:grid;
     background-color: $post_yellow;
-    grid-template-columns: 120px 180px;
-    grid-template-rows: 0% 3% 8.5% 70%;
-    height:1000px;
+    grid-template-columns: 126px 180px;
+    grid-template-rows: 0% 5% 9.5% 70%;
+    height:900px;
     width:100%;
+    overflow: scroll;
+
 }
 
 #appCopy {
     display:grid;
     background-color: $post_yellow;
-    grid-template-columns:  120px 180px 400px;
+    grid-template-columns:  126px 180px 400px;
     grid-template-rows: 80px 100px 400px 500px;
     height:1000px;
   
@@ -194,7 +197,7 @@ textarea {
     display:block;
     margin-top:10px;
     padding: 6%;
-    font-size:0.8em;
+    font-size:0.9em;
     grid-column: 1 / span 1;
     grid-row: 4/span 2;
     margin-left:1px;
@@ -209,11 +212,12 @@ textarea {
     padding-top:18px;
     padding-left:10px;
     width:100%;
-    height:20px;
+    height:28px;
     background: $light_yellow;
     grid-row-start: 1;
     grid-column: 2/ span 5;
-    margin-left:13px;
+    margin-left:30px;
+    margin-left:30px;
     opacity:2;
     box-shadow: 0 3px 2px rgba(66, 66, 66, 0.3);
     transition: box-shadow 0.3s ease-in-out;
@@ -226,7 +230,7 @@ textarea {
     p { 
         position: absolute;
         bottom:0px;
-        top:-7px;
+        top:-3px;
         
         &:hover {
             color: #0081a8e1;
@@ -282,13 +286,13 @@ textarea {
 }
 .window {
     padding: 1%;
-    margin-left: 18px;
-    margin-top:65px;
+    margin-left: 30px;
+    margin-top:75px;
     grid-column: 2/ span 5;
     grid-row: 1 / span 4;
     width:100%;
     height:100%;
-    font-size:0.71em;
+    font-size:0.78em;
     color: rgb(99, 98, 98);
     background-color: $post_yellow;
     //background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");

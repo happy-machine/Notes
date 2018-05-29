@@ -30,13 +30,13 @@ class NotesController < ApplicationController
   def get_notes
     puts "in get notes"
     puts cookies[:notes_id]
-    @user = User.find(cookies[:notes_id]||current_user.id)
+    @user = User.find(cookies[:notes_id])
     @notes = @user.notes.all
     puts "user"
     puts request.headers.env['HTTP_AUTHENTICATION_TOKEN']
-    puts current_user.authentication_token
+    puts @user.authentication_token
 
-    if request.headers.env['HTTP_AUTHENTICATION_TOKEN'] || request.headers['HTTP_AUTHENTICATION_TOKEN'] == current_user.authentication_token
+    if request.headers.env['HTTP_AUTHENTICATION_TOKEN'] || request.headers['HTTP_AUTHENTICATION_TOKEN'] == @user.authentication_token
     puts "matched"
       respond_to do |format|
       format.html { render :getnotes }
@@ -56,7 +56,7 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
-    @user = User.find(cookies[:notes_id]||current_user.id)
+    @user = User.find(cookies[:notes_id])
     if params[:content]
       if params[:id] && Note.exists?(params[:id])
         @note = Note.find(params[:id])
@@ -105,10 +105,6 @@ class NotesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_note
       @note = Note.find(params[:id])
-    end
-
-    def check_cookie
-      params(:auth)==current_user.authentication_token 
     end
 
 

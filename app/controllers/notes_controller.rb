@@ -33,6 +33,7 @@ class NotesController < ApplicationController
     @user = User.find(get_id)
     @notes = @user.notes.all
     puts "user"
+    puts cookies[:notes_id]
     puts request.headers.env['HTTP_AUTHENTICATION_TOKEN']
     puts @user.authentication_token
 

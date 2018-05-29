@@ -113,11 +113,11 @@ class NotesController < ApplicationController
       if request.headers.env['HTTP_BROWSER_REQUEST'] == 'true'
         current_user.id
       else
-        request.headers.env['HTTP_USER_ID']
+        return request.headers.env['HTTP_USER_ID']
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:title, :content, :tags, :id, :auth, :authentication_token, :auth_token, :authentication_token_created_at, :controller, :action)
+      params.require(:note).permit(:title, :content, :tags, :id, :auth, :user_id, :browser_request, :authentication_token, :auth_token, :authentication_token_created_at, :controller, :action)
     end
 end

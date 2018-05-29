@@ -19,28 +19,23 @@ class App extends React.Component{
 
   saveNote = (note) => {
     if (this.state.selectedNote.id){
-      this.serverAction ({ path: `/notes/${ this.state.selectedNote.id }.json?browser=true`, method: 'PUT', body: JSON.stringify ({ content: note }) })
+      this.serverAction ({ path: `/notes/${ this.state.selectedNote.id }.json`, method: 'PUT', body: JSON.stringify ({ content: note }) })
     } else {
       this.serverAction ({ path: '/notes.json', method: 'POST', body: JSON.stringify ({ content: note }) })
     }
   }
 
   deleteNote = () => {
-    this.serverAction ({ path: `/notes/${ this.state.selectedNote.id }.json?browser=true`, method: 'DELETE', body: undefined })
+    this.serverAction ({ path: `/notes/${ this.state.selectedNote.id }.json`, method: 'DELETE', body: undefined })
   }
   
   serverAction = ( args ) => {
-
-    var url = new URL(args.path),
-    params = { browser:true }
-    Object.keys ( params ).forEach( key => url.searchParams.append ( key, params[key] ))
-
-      fetch ( url , {
+      fetch ( args.path , {
         method: args.method,
         credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) 
+            'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
           },
           body: args.body
       }) 

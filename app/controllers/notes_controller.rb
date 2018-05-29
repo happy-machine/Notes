@@ -115,8 +115,8 @@ class NotesController < ApplicationController
         current_user.id
       else
         puts "browser"
-        p params[:browser]
-        return params[:browser]
+        p session[:notes_id]
+        return session[:notes_id]
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.

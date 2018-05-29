@@ -114,14 +114,12 @@ class NotesController < ApplicationController
         puts "got browser req"
         current_user.id
       else
-        puts "browser"
-        p auth.cookies[:notes_id]
-        p cookies[:notes_id]
-        return  auth.cookies[:notes_id]
+        puts request.headers
+        return request.headers.env['HTTP_USER_ID']
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:title, :content, :tags, :id, :auth, :user_id, :browser, :authentication_token, :auth_token, :authentication_token_created_at, :controller, :action)
+      params.require(:note).permit(:title, :content, :tags, :id, :auth, :user_id, :browser_request, :authentication_token, :auth_token, :authentication_token_created_at, :controller, :action)
     end
 end

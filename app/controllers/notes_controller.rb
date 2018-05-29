@@ -114,7 +114,7 @@ class NotesController < ApplicationController
         puts "got browser req"
         current_user.id
       else
-        puts request.headers
+        p request.headers
         return request.headers.env['HTTP_USER_ID']
       end
     end

@@ -30,7 +30,7 @@ class NotesController < ApplicationController
   def get_notes
     puts "in get notes"
     puts cookies[:notes_id]
-    @user = User.find(request.headers.env['HTTP_USER_ID'])
+    @user = User.find(get_id)
     @notes = @user.notes.all
     puts "user"
     puts request.headers.env['HTTP_AUTHENTICATION_TOKEN']
@@ -56,7 +56,7 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
-    @user = User.find(request.headers.env['HTTP_USER_ID'])
+    @user = User.find(get_id)
     if params[:content]
       if params[:id] && Note.exists?(params[:id])
         @note = Note.find(params[:id])
@@ -107,7 +107,15 @@ class NotesController < ApplicationController
       @note = Note.find(params[:id])
     end
 
-
+    def get_id
+      puts "yowsers"
+      puts request.headers.env['HTTP_BROWSER_REQUEST']
+      if request.headers.env['HTTP_BROWSER_REQUEST']
+        current_user.id
+      else
+        request.headers.env['HTTP_USER_ID']
+      end
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
       params.require(:note).permit(:title, :content, :tags, :id, :auth, :authentication_token, :auth_token, :authentication_token_created_at, :controller, :action)

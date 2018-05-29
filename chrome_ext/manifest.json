@@ -2,14 +2,13 @@
   "manifest_version": 2,
   "name": "Notes",
   "version": "1.0",
-  "description": "Don't forget, use Notes!",
-  "permissions": ["activeTab", "tabs", "declarativeContent", "contextMenus", "storage", "cookies","*://*", "http://localhost/*","https://*/","https://notes-app-w.herokuapp.com/*","clipboardWrite","clipboardRead"],
+  "description": "Notes is available to you everywhere, always in sync and free of complexity",
+  "permissions": ["activeTab", "tabs", "contextMenus", "cookies", "*://notes-app-w.herokuapp.com/*", "http://localhost/*"],
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
-
 "browser_action": {
    "default_icon": "tab-icon.png",
    "default_title": "Notes",
@@ -18,19 +17,9 @@
  "web_accessible_resources": [
   "css_file.css"
 ],
- "commands": {
-  "save" : {
-      "suggested_key": {
-           "default": "Alt+Shift+S" 
-      },
-      "description": "Save a link"
-  },
-  "random": {
-      "suggested_key": {
-          "default": "Alt+Shift+L"
-      },
-      "description": "Load a random link"
-  }},
+"icons": { "16": "tab-icon.png",
+  "48": "notes48.png",
+ "128": "notes128.png" },
   
 
  "content_scripts" : [

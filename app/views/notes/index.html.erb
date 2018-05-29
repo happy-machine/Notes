@@ -2,5 +2,5 @@
         <%=link_to 'Logout', destroy_user_session_path, method: :delete, id:"login", class:"bottom" %>
 <div id="app"></div>
 <% else %>
-  <button onClick="window.location='<%=new_user_session_path%>';"  id="login" class="_button">Login/Sign-up</button>
+  <button onClick="window.location='<%=new_user_session_path%>';"  id="login" class="bottom">Login/Sign-up</button>
 <% end %>

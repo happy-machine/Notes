@@ -2,7 +2,6 @@ var port = '3500'
 var reload = () => {
       setup()
       getToken()
-
 }
 
 window.onload = () => {
@@ -28,7 +27,6 @@ var save = (content) => {
 var getToken = () => {
  this.chrome.cookies.getAllCookieStores((res)=>{console.log(res)})
 this.chrome.cookies.getAll( {} ,function (cookie) {
-console.log('cookies',cookie)
   return cookie.forEach ( (cookie, i ) => { 
     if (cookie.name == "notes_token") {
       return getNotes (cookie.value) } 
@@ -38,10 +36,7 @@ console.log('cookies',cookie)
 })
 }
 
-
-
 var getNotes = (token) => {
-  console.log('token',token)
   if (token){
     fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
         ,{headers: {
@@ -66,8 +61,6 @@ var getNotes = (token) => {
 
 
 var setup = () => {
-  // Add error 
-
   var parent = document.createElement('div')
   parent.setAttribute ( 'id' , 'parent' )
   document.getElementById( "list" ).appendChild ( parent );
@@ -79,7 +72,6 @@ var clear = () => {
   var parentThis = document.getElementById ( "parent" )
   parentThis.parentElement.removeChild ( parentThis )
   area.value = ''  
-
   reload ()
 }
 
@@ -105,16 +97,13 @@ console.log('passed ref', res)
   res.forEach ( (item,i) => { 
       div = document.createElement('a')
       div.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/notes/${item.id}/edit` , '_blank' ) })
-      if ( div.classList.contains ( "a-link" ) ){
-          chrome.tabs.create ({ url: `https://notes-app-w.herokuapp.com/notes/${item.i}` })
-          return false
-      }
       div.innerHTML = item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
-      .split ( ' ' ) .slice ( 0,5 ) .join ( ' ' ) + "</BR>"
+      .split ( ' ' ) .slice ( 0,2 ) .join ( ' ' ) + "</BR>"
       div.setAttribute ( 'id' , i )
       div.setAttribute ( 'class','notes' );
       document.getElementById ( "parent" ).appendChild ( div )
   })
+
   var area = document.querySelector ( 'textarea' )
   if ( area.addEventListener ) {
       area.addEventListener ( 'input' , function ( e ) {
@@ -126,72 +115,4 @@ console.log('passed ref', res)
         area.attachEvent ( 'onpropertychange', function() {  })       
         }
 }
-  /*
-  navigator.clipboard.writeText('Text to be copied')
-  .then(() => {
-    console.log('Text copied to clipboard');
-  })
-  .catch(err => {
-    // This can happen if the user denies clipboard permissions:
-    console.error('Could not copy text: ', err);
-  });*/
-/*
-  navigator.clipboard.readText()
-  .then(text => {
-    console.log('Pasted content: ', text);
-  })
-  .catch(err => {
-    console.error('Failed to read clipboard contents: ', err);
-  });
-  */
-/*
-  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.method == "getSelection")
-      sendMessage({data: window.getSelection().toString()});
-    else
-      sendResponse({}); // snub them.
-});
-    navigator.clipboard.readText().then((res)=>{console.log(res)}).catch((e)=>{console.log(e)})
   
-
-*/
-/*
-var keyone 
-var key1 = document.getElementById('key1')
-chrome.commands.onCommand.addListener(function (command) {
-  if (command === "save") {
-  
-  chrome.tabs.executeScript( {
-    code: "window.getSelection().toString();"
-}, function(selection) {
-  key1.innerHTML= selection[0];
-});
-  
-      navigator.clipboard.writeText('Text to be copied')
-      .then(() => {
-        console.log('Text copied to clipboard');
-      })
-      .catch(err => {
-        // This can happen if the user denies clipboard permissions:
-        console.error('Could not copy text: ', err);
-      })
-      
-  } else if (command === "random") {
-    chrome.tabs.executeScript( {
-      code: "window.getSelection().toString();"
-  }, function(selection) {
-    console.log(selection)
-    var key2 = document.getElementById('keyOne')
-    key2.innerHTML= selection[0];
-  });
- chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "hello")
-      sendResponse({farewell: "goodbye"});
-  });   
-  */
-//chrome.tabs.executeScript(null,
-  //{code:"alert(window.getSelection().toString());"})

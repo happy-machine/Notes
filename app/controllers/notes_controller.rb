@@ -29,7 +29,8 @@ class NotesController < ApplicationController
 
   def get_notes
     puts "in get notes"
-    @notes=Note.all
+    @user = User.find(current_user.id)
+    @notes = @user.notes.all
     puts "user"
     if request.headers.env['HTTP_AUTHENTICATION_TOKEN'] || request.headers['HTTP_AUTHENTICATION_TOKEN'] == current_user.authentication_token
     respond_to do |format|
@@ -50,14 +51,14 @@ class NotesController < ApplicationController
   # POST /notes
   # POST /notes.json
   def create
-    @note = Note.new
+    @user = User.find(current_user.id)
     if params[:content]
       if params[:id] && Note.exists?(params[:id])
         @note = Note.find(params[:id])
-        @note.content = params[:content]
       else
-        @note = Note.new(note_params)
+        @note = @user.notes.new
       end
+      @note.content = params[:content]
     end
 
   respond_to do |format|

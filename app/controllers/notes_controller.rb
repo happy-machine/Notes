@@ -29,7 +29,7 @@ class NotesController < ApplicationController
 
   def get_notes
     puts "in get notes"
-    puts cookies[:notes_id]
+    request.headers.env['HTTP_USER_ID']
     @user = User.find(get_id)
     @notes = @user.notes.all
     puts "user"
@@ -113,7 +113,7 @@ class NotesController < ApplicationController
       if request.headers.env['HTTP_BROWSER_REQUEST'] == 'true'
         current_user.id
       else
-        cookies[:notes_id]
+        request.headers.env['HTTP_USER_ID']
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.

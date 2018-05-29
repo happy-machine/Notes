@@ -26,7 +26,7 @@ body {
     transition: box-shadow 0.3s ease-in-out;
     grid-row-start:1;
     background-color: $light_yellow;
-    background-image: url("./notes_logo_2.png");
+    background-image: image-url("./notes_logo_2.png");
     background-repeat: no-repeat, repeat;
     background-size:contain;
     color: #0080a8;
@@ -40,7 +40,7 @@ body {
 
 .showArrow{
     position: absolute;
-    background-image: url("./arrow.png");
+    background-image: image-url("./arrow.png");
     top: 100px;
     height: 20px;
     width: 30px;
@@ -75,7 +75,7 @@ body {
 
 .trash_note{
     position:absolute;
-    background-image: url("./trash_closed.png"); 
+    background-image: image-url("./trash_closed.png"); 
     height:29px;
     width:23px;
     background-color: $light_yellow;
@@ -86,7 +86,7 @@ body {
     top:3px;  
 
     &:hover{
-        background-image: url("./trash_lid.png"); 
+        background-image: image-url("./trash_lid.png"); 
         height:28px;
         width:22px;
         top:4px;
@@ -94,11 +94,11 @@ body {
     }
 
     &:active{
-        background-image: url("./trash_closed.png"); 
+        background-image: image-url("./trash_closed.png"); 
     }
 
     &:focus{
-        background-image: url("./trash_closed.png"); 
+        background-image: image-url("./trash_closed.png"); 
     }
 }
 
@@ -291,7 +291,7 @@ textarea {
     font-size:0.71em;
     color: rgb(99, 98, 98);
     background-color: $post_yellow;
-    //background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    //background-image: image-url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 }
 #submitButton {
     display:none;

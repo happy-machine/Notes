@@ -8,12 +8,13 @@ window.onload = () => {
   reload ()
 }
 
-var save = (content) => {
+var save = ( content , id ) => {
   fetch ( `https://notes-app-w.herokuapp.com/notes.json` , {
       method: 'POST',
       body: JSON.stringify ({ content: content}) ,
       headers: {
         'Content-Type': 'application/json' ,
+        'user-id': id
       }
   }) 
   .then ( ( res ) => { 
@@ -28,18 +29,18 @@ var getToken = () => {
 this.chrome.cookies.getAll( {} ,function (cookie) {
   return cookie.forEach ( (cookie, i ) => { 
     if (cookie.name == "notes_token") {
-      return getNotes (cookie.value,getId()) } 
+      return getId ( cookie.value )} 
     
   }) || error('no token')
 
 })
 }
 
-var getId = () => {
+var getId = ( token ) => {
  this.chrome.cookies.getAll( {} ,function (cookie) {
    return cookie.forEach ( (cookie, i ) => { 
      if (cookie.name == "notes_id") {
-       return cookie.value } 
+       return getNotes ( token, cookie.value )} 
      
    }) || error('no token')
  
@@ -120,7 +121,7 @@ console.log('passed ref', res)
   if ( area.addEventListener ) {
       area.addEventListener ( 'input' , function ( e ) {
         if ( e.data == null ){
-            save ( e.target.value )
+            save ( e.target.value , getId() )
         }
       }, false );
   } else if ( area.attachEvent ) {

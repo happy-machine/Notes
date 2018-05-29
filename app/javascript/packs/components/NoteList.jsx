@@ -31,13 +31,12 @@ class NoteList extends React.Component {
 
   populateNotes = (token) => {
     //fetch ( `/notes.json?auth=${token}` ) 
-     fetch ( `/get_notes.json`,{
+     fetch ( `/get_notes.json?browser=true`,{
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
-        'authentication-token': token,
-        'browser-request': 'true' 
+        'authentication-token': token
       }
      } ) 
     .then ( ( res ) => {

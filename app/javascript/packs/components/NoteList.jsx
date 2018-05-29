@@ -37,7 +37,7 @@ class NoteList extends React.Component {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector ( 'meta[name="csrf-token"]' ) .getAttribute ( 'content' ) ,
         'authentication-token': token,
-        'browser-request': true 
+        'browser-request': 'true' 
       }
      } ) 
     .then ( ( res ) => {

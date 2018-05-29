@@ -110,7 +110,7 @@ class NotesController < ApplicationController
     def get_id
       puts "yowsers"
       puts request.headers.env['HTTP_BROWSER_REQUEST']
-      if request.headers.env['HTTP_BROWSER_REQUEST']
+      if request.headers.env['HTTP_BROWSER_REQUEST'] == 'true'
         current_user.id
       else
         request.headers.env['HTTP_USER_ID']

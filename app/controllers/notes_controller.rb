@@ -113,7 +113,7 @@ class NotesController < ApplicationController
       if request.headers.env['HTTP_BROWSER_REQUEST'] == 'true'
         current_user.id
       else
-        request.headers.env['HTTP_USER_ID']
+        cookies[:notes_id]
       end
     end
     # Never trust parameters from the scary internet, only allow the white list through.

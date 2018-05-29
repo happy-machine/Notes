@@ -103,9 +103,9 @@ class NotesController < ApplicationController
     end
 
     def get_id  
+      puts "id in get it"
         return request.headers.env['HTTP_USER_ID']
-        puts "id in get it"
-        puts request.headers.env['HTTP_USER_ID']
+       
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params

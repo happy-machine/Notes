@@ -1,26 +1,37 @@
 import React from 'react'
-class Note extends React.Component{
-    render(){
-        
-        var noteStyle = {
-            color: "red"
-        }
-        function on2M(){
-            console.log('clicked')
-            //setState({color:'blue'})}
-        }
-        return(
-                    this.props.content.split('\\n').map(function(line, key) {
-                    return (
-                    <span key={key} style={noteStyle} onClick={on2M()}>
-                        {line}
-                        <br/>
-                    </span>
-                    )
-                }) 
-                )
 
-            }
-        }
+class Note extends React.Component {
     
-  export default Note;
+    constructor ( props ){
+        super ( props )
+        this.state = { value: this.props.content }
+    }
+
+    static getDerivedStateFromProps( nextProps, prevState ){
+        return nextProps;
+    }
+
+    
+    click = () => {
+        this.props.onClick ( this.state )
+    }
+
+    // get first line and return up to first 5 words 
+    format_title = function ( content ){
+        if ( content && content.length ){
+            return content .split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
+                .split ( ' ' ) .slice ( 0,5 ) .join ( ' ' ) + "\n"
+                
+        }
+    }
+
+    render () {  
+        return (
+                <div className="titles" onClick={ this.click } value={ this.state.value } onChange={ this.handleChange } onBlur={ this.handleSubmit }>
+                    { this.format_title ( this.state.value ) }
+                </div>
+        )
+    }
+}
+    
+export default Note;

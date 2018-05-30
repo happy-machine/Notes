@@ -1,0 +1,28 @@
+a:hover{
+    background-color: #0081a8e1!important;
+    color:#FFF576;
+}
+a{
+    text-decoration:none!important; 
+    font-family: sans-serif;
+    color: inherit;
+
+}
+textarea::placeholder {
+    color:  #7ea4afe1
+  }
+
+#error-link{
+    display:inline-block;
+  
+}  #el-bold{
+    cursor: pointer;
+    display:inline-block;
+    position:relative;
+   
+    font-weight:700;
+}  #el-text{
+    display:inline-block;
+    position:relative;
+    padding:3px;
+    }

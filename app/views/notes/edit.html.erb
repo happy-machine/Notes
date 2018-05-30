@@ -1,6 +1,21 @@
-<h1>Editing Note</h1>
+<div id="appCopy">
+    <p id="notice" class="bottom"><%= notice %></p>
+    <div class="new_note" id="saveButton">
+        <p>Save Note</p>
+    </div>
+    <div class="notes_logo" id="logo"></div> 
+        
+    <%= render 'form', note: @note %>
 
-<%= render 'form', note: @note %>
+</div>
 
-<%= link_to 'Show', @note %> |
-<%= link_to 'Back', notes_path %>
+<script>
+
+ var saveButton = document.getElementById("saveButton"), logo = document.getElementById("logo")
+ saveButton.onclick = () => {
+    document.getElementById('submitButton').click()
+ }
+ logo.onclick = () => {
+    window.location = "/"
+ }
+</script>

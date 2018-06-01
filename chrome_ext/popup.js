@@ -22,7 +22,7 @@ var save = ( content , credentials ) => {
       }
   }) 
   .then ( ( res ) => { 
-      clear ()
+      window.close()
      
   }).catch ( (e) => {
       console.log ( e )
@@ -49,6 +49,7 @@ var getCredentials = () => { return new Promise ((resolve,fail) => {
   })
 })}
 
+
 var getNotes = ( credentials ) => {
   fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
   ,{headers: {
@@ -69,6 +70,7 @@ var getNotes = ( credentials ) => {
   })
 }
 
+
 var setup = () => {
   var parent = document.createElement('div')
   parent.setAttribute ( 'id' , 'parent' )
@@ -78,8 +80,10 @@ var setup = () => {
 }
 
 var clear = () => {
+  while (document.getElementById ( "parent" ) ) {
   var parentThis = document.getElementById ( "parent" )
   parentThis.parentElement.removeChild ( parentThis )
+  }
   area.value = ''  
   reload ()
 }
@@ -103,29 +107,33 @@ errorLink.addEventListener ( "click", function() { window.open ( `https://notes-
 var printResults = ( res, token ) => {
   var divCreate, div 
   res.forEach ( (item,i) => { 
-    if  (item.content.length ) {
       div = document.createElement('a')
-      div.addEventListener( "click", function () { 
-        window.open ( 'https://notes-app-w.herokuapp.com/notes/' + item.id +'/edit' , '_blank' ) })
+      div.addEventListener( "click", function() { 
+      window.open ( 'https://notes-app-w.herokuapp.com/notes/' + item.id +'/edit' , '_blank' ) })
         div.innerHTML = item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
         .split ( ' ' ) .slice ( 0,2 ) .join ( ' ' ) + "</BR>"
         div.setAttribute ( 'id' , i )
         div.setAttribute ( 'class','notes' );
         document.getElementById ( "parent" ).appendChild ( div )
-    }
-  })
+      })
 
   var area = document.querySelector ( 'textarea' )
   if ( area.addEventListener ) {
-      area.addEventListener ( 'input' , function ( e ) {
-        if ( e.data == null ){
+  
+      area.addEventListener ( 'keyup' , function ( e ) {
+        
+        if ( e.key == 'Enter' & e.target.value.length > 2 ){
            getCredentials()
            .then ( ( res ) => { return  save ( e.target.value , res ) } )
            .catch ( e => { console.log ( e ) } ) 
+        } else if ( e.key == 'Enter' ) { 
+          window.close()
         }
-      }, false );
+        
+      });
+    
   } else if ( area.attachEvent ) {
-          area.attachEvent ( 'onpropertychange', function() {  } )       
+        area.attachEvent ( 'onpropertychange', function() {  } )       
         }
 }
   

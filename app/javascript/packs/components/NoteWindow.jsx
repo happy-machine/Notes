@@ -8,6 +8,10 @@ class NoteWindow extends React.Component {
         }
     }
 
+    componentDidMount () {
+        focus()
+    }
+
     static getDerivedStateFromProps( nextProps, prevState ){
         return nextProps
     }
@@ -36,7 +40,7 @@ class NoteWindow extends React.Component {
 
     render () {  
         return (
-                <textarea value={ this.state.value } onChange={ this.handleChange } onBlur={ this.handleSubmit } className="window">
+                <textarea value={ this.state.value } placeholder="Add a note.." onChange={ this.handleChange } onBlur={ this.handleSubmit } className="window">
                     { this.state.value }
                 </textarea>
         )

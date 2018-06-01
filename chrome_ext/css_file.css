@@ -1,27 +1,27 @@
-a:hover{
+.notesApp a:hover{
     background-color: #0081a8e1!important;
     color:#FFF576;
 }
-a{
+.notesApp a{
     text-decoration:none!important; 
     font-family: sans-serif;
     color: inherit;
 
 }
-textarea::placeholder {
+.notesApp textarea::placeholder {
     color:  #7ea4afe1
   }
 
-#error-link{
+.notesApp #error-link{
     display:inline-block;
   
-}  #el-bold{
+}.notesApp #el-bold{
     cursor: pointer;
     display:inline-block;
     position:relative;
    
     font-weight:700;
-}  #el-text{
+}.notesApp #el-text{
     display:inline-block;
     position:relative;
     padding:3px;

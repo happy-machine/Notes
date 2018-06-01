@@ -42,7 +42,7 @@ getToken_populateNote = () => {
   saveNote = (note) => {
     if (this.state.selectedNote.id){
       this.serverAction ({ path: `/notes/${ this.state.selectedNote.id }.json`, method: 'PUT', body: JSON.stringify ({ content: note }) })
-    } else {
+    } else if ( note.length ) {
       this.serverAction ({ path: '/notes.json', method: 'POST', body: JSON.stringify ({ content: note }) })
     }
   }

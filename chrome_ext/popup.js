@@ -49,7 +49,6 @@ var getCredentials = () => { return new Promise ((resolve,fail) => {
   })
 })}
 
-
 var getNotes = ( credentials ) => {
   fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
   ,{headers: {
@@ -69,7 +68,6 @@ var getNotes = ( credentials ) => {
     console.log ( 'error:', e ) 
   })
 }
-
 
 var setup = () => {
   var parent = document.createElement('div')
@@ -93,37 +91,41 @@ var error = (arg) => {
 }
 
 var errorMessage = ( message ) => {
-document.contains(document.getElementById("error-link")) ? document.getElementById("error-link").remove() : null
+document.contains(document.getElementById ( "error-link" ) ) ? document.getElementById ( "error-link" ).remove () : null
 document.body.style = "height:18px; width:90px; background-color:#FFF576;"
 var errorLink = document.createElement ( 'div' )
 errorLink.setAttribute ( 'id' , 'error-link' )
 errorLink.innerHTML = `<div id="el-text">${message.text}</div><div id="el-bold">${message.bold}</div>`
-document.getElementById( 'parent' ).appendChild (errorLink)
-errorLink.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/users/sign_in` , '_blank' ) })
+document.getElementById ( 'parent' ).appendChild (errorLink)
+errorLink.addEventListener ( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/users/sign_in` , '_blank' ) })
 }
 
 var printResults = ( res, token ) => {
   var divCreate, div 
   res.forEach ( (item,i) => { 
+    if  (item.content.length ) {
       div = document.createElement('a')
-      div.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/notes/${item.id}/edit` , '_blank' ) })
-      div.innerHTML = item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
-      .split ( ' ' ) .slice ( 0,2 ) .join ( ' ' ) + "</BR>"
-      div.setAttribute ( 'id' , i )
-      div.setAttribute ( 'class','notes' );
-      document.getElementById ( "parent" ).appendChild ( div )
+      div.addEventListener( "click", function () { 
+        window.open ( 'https://notes-app-w.herokuapp.com/notes/' + item.id +'/edit' , '_blank' ) })
+        div.innerHTML = item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
+        .split ( ' ' ) .slice ( 0,2 ) .join ( ' ' ) + "</BR>"
+        div.setAttribute ( 'id' , i )
+        div.setAttribute ( 'class','notes' );
+        document.getElementById ( "parent" ).appendChild ( div )
+    }
   })
 
   var area = document.querySelector ( 'textarea' )
   if ( area.addEventListener ) {
       area.addEventListener ( 'input' , function ( e ) {
         if ( e.data == null ){
-           getCredentials().then((res)=>{ return  save ( e.target.value , res )})
-           .catch(e=>{console.log(e)}) 
+           getCredentials()
+           .then ( ( res ) => { return  save ( e.target.value , res ) } )
+           .catch ( e => { console.log ( e ) } ) 
         }
       }, false );
   } else if ( area.attachEvent ) {
-        area.attachEvent ( 'onpropertychange', function() {  })       
+          area.attachEvent ( 'onpropertychange', function() {  } )       
         }
 }
   

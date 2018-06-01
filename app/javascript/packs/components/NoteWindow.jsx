@@ -9,7 +9,7 @@ class NoteWindow extends React.Component {
     }
 
     componentDidMount () {
-        focus()
+        this.textarea.focus(); 
     }
 
     static getDerivedStateFromProps( nextProps, prevState ){

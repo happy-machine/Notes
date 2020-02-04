@@ -1,129 +1,129 @@
-var port = '3500'
-
-var reload = () => {
-      setup()
-      getCredentials().then((res)=>{
-        getNotes(res)
-      }).catch(e=>{console.log(e)})
-     
+var reload = async () => {
+      setup();
+      await printResults(await getFromStorage('notesBuffer'));
 }
 
 window.onload = () => {
-  reload ()
+  reload ();
+  var area = document.querySelector ( 'textarea' );
+  if ( area && area.addEventListener ) {
+      area.addEventListener ( 'input' , async function ( e ) {
+        if ( e.data == null && e.inputType !== "deleteContentBackward" ){
+          const values = await updateLocalStorage('notesBuffer', e.target.value);
+          document.getElementById("area").value="";
+          document.getElementById ( "parent" ).innerHTML="";
+          await printResults(values);
+        }
+      }, false );
+      const clearButton = document.getElementById ( 'clear' )
+      clearButton.addEventListener( "click", async () => {
+        await emptyStorage('notesBuffer');
+        await clear();
+      })
+  } 
 }
 
-var save = ( content , credentials ) => {
-  fetch ( `https://notes-app-w.herokuapp.com/notes.json` , {
-      method: 'POST',
-      body: JSON.stringify ({ content: content}) ,
-      headers: {
-        'Content-Type': 'application/json' ,
-        'user-id': credentials.id
+async function getLocalStorageValue(key) {
+  return new Promise((resolve, reject) => {
+      try {
+          chrome.storage.sync.get(key, function (value) {
+              resolve(value);
+          })
       }
-  }) 
-  .then ( ( res ) => { 
-      clear ()
-     
-  }).catch ( (e) => {
-      console.log ( e )
-  })
+      catch (ex) {
+          reject(ex);
+      }
+  });
 }
 
-var getCredentials = () => { return new Promise ((resolve,fail) => {
-  var id, token
-  this.chrome.cookies.getAll( {} ,function (cookie) {
-    cookie.forEach ( (cookie, i ) => { 
-      console.log(cookie)
-      if (cookie.name == "notes_id") {
-        id = cookie.value
+async function setLocalStorage(key, content) {
+  return new Promise((resolve, reject) => {
+      try {
+          chrome.storage.sync.set({[key]: content}, function (value) {
+              resolve(value);
+          })
       }
-      if (cookie.name == "notes_token") {
-        token = cookie.value
+      catch (ex) {
+          reject(ex);
+      }
+  });
+}
+
+async function emptyStorage(key){
+  await setLocalStorage(key,[]);
+}
+
+async function updateLocalStorage(key, value) {
+  const LocalStorageValue = await getLocalStorageValue(key);
+  const content = LocalStorageValue[key] || [];
+  content.push({content: value, id: (new Date()).getTime().toString(36) + Math.random().toString(36).slice(2)})
+  return new Promise((resolve, reject) => {
+      try {
+          chrome.storage.sync.set({[key]: content}, function (res) {
+              resolve(content);
+          })
+      }
+      catch (ex) {
+          reject(ex);
+      }
+  });
+}
+
+async function removeFromStorage (value, e) {
+  if (e.id !== undefined){
+    const values = await getFromStorage(value);
+    values.length && values.forEach((value, i) => {
+      if (value.id === e.id){
+        values.splice(i, 1);
       }
     })
-    if ( token && id ) { 
-      resolve( { id: id, token: token } )
-    } else {
-     fail ( error('no token') )
-    }
-  })
-})}
-
-
-var getNotes = ( credentials ) => {
-  fetch ( `https://notes-app-w.herokuapp.com/get_notes.json` 
-  ,{headers: {
-    'authentication-token': credentials.token,
-    'user-id': credentials.id
-  }}) 
-  .then ( ( res ) => {
-      return res.json () 
-  })
-  .then ( (res) => { 
-    document.contains(document.getElementById("error-link")) ? document.getElementById("error-link").remove() : null
-    document.getElementById("area").style.height = "18px"
-    document.getElementById("area").style.display = "inline"
-    printResults ( res, credentials.token )
-  })
-  .catch ( e => { 
-    console.log ( 'error:', e ) 
-  })
-}
-
-
-var setup = () => {
-  var parent = document.createElement('div')
-  parent.setAttribute ( 'id' , 'parent' )
-  document.getElementById( "list" ).appendChild ( parent );
-  document.getElementById("area").style.display = "none"
-  document.getElementById("area").style.height = "0px!important"
-}
-
-var clear = () => {
-  var parentThis = document.getElementById ( "parent" )
-  parentThis.parentElement.removeChild ( parentThis )
-  area.value = ''  
-  reload ()
-}
-
-var error = (arg) => {
-  switch (arg){
-    case 'no token' : errorMessage ( {text: 'Please', bold: 'Log In.'}) ; break;
+    return values;
   }
 }
 
-var errorMessage = ( message ) => {
-document.contains(document.getElementById("error-link")) ? document.getElementById("error-link").remove() : null
-document.body.style = "height:18px; width:90px; background-color:#FFF576;"
-var errorLink = document.createElement ( 'div' )
-errorLink.setAttribute ( 'id' , 'error-link' )
-errorLink.innerHTML = `<div id="el-text">${message.text}</div><div id="el-bold">${message.bold}</div>`
-document.getElementById( 'parent' ).appendChild (errorLink)
-errorLink.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/users/sign_in` , '_blank' ) })
+async function getFromStorage(value) {
+ const res = await getLocalStorageValue(value);
+ return res[value];
 }
 
-var printResults = ( res, token ) => {
-  var divCreate, div 
-  res.forEach ( (item,i) => { 
-      div = document.createElement('a')
-      div.addEventListener( "click", function() { window.open ( `https://notes-app-w.herokuapp.com/notes/${item.id}/edit` , '_blank' ) })
-      div.innerHTML = item.content.split ( '\n' ) .slice ( 0,1 ) .join ( ' ' ) 
-      .split ( ' ' ) .slice ( 0,2 ) .join ( ' ' ) + "</BR>"
-      div.setAttribute ( 'id' , i )
-      div.setAttribute ( 'class','notes' );
-      document.getElementById ( "parent" ).appendChild ( div )
-  })
+var setup = () => {
+  var parent = document.createElement('div');
+  parent.setAttribute ( 'id' , 'parent' );
+  document.getElementById( "list" ).appendChild ( parent );
+}
 
-  var area = document.querySelector ( 'textarea' )
-  if ( area.addEventListener ) {
-      area.addEventListener ( 'input' , function ( e ) {
-        if ( e.data == null ){
-           getCredentials().then((res)=>{ return  save ( e.target.value , res )})
-           .catch(e=>{console.log(e)}) 
-        }
-      }, false );
-  } else if ( area.attachEvent ) {
-        area.attachEvent ( 'onpropertychange', function() {  })       
-        }
+var clear = async () => {
+  var parent = document.getElementById ( "parent" )
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+  const values = await getFromStorage('notesBuffer');
+  await printResults(values);
+}
+
+
+var printResults = async ( res, token ) => {
+  if (res.length){
+    let div;
+    res.forEach ( (item) => { 
+        span = document.createElement('div')
+        span.setAttribute ( 'class','item-container' );
+        div = document.createElement('a')
+        div.innerHTML = item.content
+        div.setAttribute ( 'class','notes' );
+        span.appendChild ( div )
+        const png = document.createElement('img')
+        png.setAttribute ( 'src','./close.png' );
+        png.setAttribute ( 'class','close' );
+        png.setAttribute ( 'id', item.id );
+        png.addEventListener( "click", async () => {
+          const values = await removeFromStorage('notesBuffer', png);
+          await setLocalStorage('notesBuffer', values);
+          await clear();
+        })
+        span.appendChild ( png );
+        document.getElementById ( "parent" ).appendChild ( span );
+    })
+  }
 }
   

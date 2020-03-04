@@ -15,7 +15,7 @@ gem 'devise-token_authenticatable'
 #gem 'sqlite3'
 gem 'pg'
 # Use Puma as the app server
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 ruby '2.4.1'
 gem 'sass-rails', '~> 5.0'

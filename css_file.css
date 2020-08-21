@@ -1,28 +1,90 @@
-.notesApp a:hover{
-    background-color: #0081a8e1!important;
-    color:#FFF576;
+
+body {
+    background-color:  #FFF576;
 }
-.notesApp a{
+
+a{
     text-decoration:none!important; 
     font-family: sans-serif;
     color: inherit;
-
+    cursor: default;
+    width: 100%;
+    margin-right: 5px;
+    overflow: scroll;
 }
-.notesApp textarea::placeholder {
-    color:  #7ea4afe1
-  }
 
-.notesApp #error-link{
+#container {
+    width:130px;
+    /* min-height:120px; */
+    resize: both;
+}
+
+#list {
+    color:#0080a8;
+}
+
+#parent {
+    display: flex;
+    flex-direction: column;
+}
+
+#area {
+    background-color: rgb(255, 245, 118);
+    border: none;
+    outline: none;
+    font-family: sans-serif;
+    padding-left: 0px;
+    display: inline;
+    resize: none;
+    overflow: scroll;
+    color: inherit;
+    height: 20px;
+    color:#0080a8;
+    font-size: 12px;
+}
+
+#clear {
+    background-color: #0080a8;
+    color: rgb(255, 245, 118);
+    float: left;
+    width: auto;
+    font-size: 0.7em;
+    margin-left: -10px;
+    padding: 4px 4px 2px 5px;
+    border-top-right-radius: 5px;
+    cursor: grab;
+}
+
+textarea::placeholder {
+    color:  #7ea4afe1;
+}
+
+.close {
+    width: 8px;
+    height: 8px;
+    cursor: grab;
+}
+
+
+#error-link{
     display:inline-block;
   
-}.notesApp #el-bold{
+}  
+
+#el-bold{
     cursor: pointer;
     display:inline-block;
     position:relative;
    
     font-weight:700;
-}.notesApp #el-text{
+}  
+
+#el-text{
     display:inline-block;
     position:relative;
     padding:3px;
-    }
+}
+
+.item-container{
+    display: inline-flex;
+}

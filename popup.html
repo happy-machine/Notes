@@ -1,30 +1,19 @@
 <!doctype html>
 <html>
   <head>
-    <title class="notesApp" >Test</title>
-    <meta http-equiv="Content-Security-Policy:" content="script-src 'unsafe-inline'">
+    <title>Notes</title>
     <link rel="stylesheet" type="text/css" href="css_file.css" />
   </head>
 
-  <body style="background-color:  #FFF576;width:100px;height:100px;">
-        <script src="popup.js"></script>
-      <div id="list" class="notesApp"  style="color:#0080a8"></div>
-      <textarea id="area" class="notesApp" placeholder="Add a note...";autofocus style="background-color: #FFF576;
-      resize: none;
-      border: none;
-      outline: none;
-      font-family: sans-serif;
-      height:20px;
-      width:100px;
-      margin-top:5px;
-      margin-bottom:5px;
-      overflow:scroll;
-      "
-      
-      ></textarea>
+  <body>
+      <script src="popup.js"></script>
+      <div id=container>
+      <div id="list"></div>
+      <textarea id="area" placeholder="Add a note...";autofocus ></textarea>
+    </div>
      
      
-    <h1 style="color:#0080a8;font-family: sans-serif;font-size: 1em;" class="notesApp" >
-      
+    <h1 style="color:#0080a8;font-family: sans-serif;font-size: 1em;">
+    <div id="clear">CLEAR</div>
   </body>
 </html>
